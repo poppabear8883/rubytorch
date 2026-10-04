@@ -39,7 +39,7 @@ export default function Kit() {
           <section className="flex flex-wrap items-end gap-8">
             {[16, 24, 32].map((s) => (
               <div key={s} style={{ width: s, height: s }}>
-                <Logo variant="flame-small" className="size-full" />
+                <Logo variant="flame" className="size-full" />
               </div>
             ))}
             {[64, 128].map((s) => (

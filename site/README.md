@@ -40,7 +40,7 @@ The fonts are **Sora** (display) and **Inter** (body and labels). Both are self-
 
 ## Logo
 
-`src/components/Logo.tsx` is a **redraw from the brand description**, not the vendor artwork. The original PNG attachments never reached the project folder. Variants are `flame`, `flame-small` (16–24 px, also `public/favicon.svg`) and `torch`. **Replace it with the official SVG** when it's available, and keep the colours: back flame Deep Ruby, middle Crimson, front Ruby, handle Ivory.
+`src/components/Logo.tsx` uses the **official artwork** Mike supplied. Masters (and the palette sheet) are in `raw/brand/`; trimmed transparent PNGs are in `public/brand/` (`flame.png`, `torch.png`). Favicons (`public/favicon-32.png`, `favicon-64.png`, `apple-touch-icon.png`) are generated from the flame. The handle is Ivory on transparent, so the logo is for dark backgrounds only. If vendor SVGs arrive, drop them in and point `SRC` in `Logo.tsx` at them.
 
 ## Images
 
@@ -75,7 +75,7 @@ Known limit: the hero source is 1536 px wide, so it looks slightly soft on 1920 
 
 ## Next steps
 
-- Official SVG logo
+- Official SVG logo (the PNGs are crisp up to ~450px tall; SVG would be sharper beyond that)
 - OG / social card
 - A real form endpoint
 - Real product screenshots and proof points

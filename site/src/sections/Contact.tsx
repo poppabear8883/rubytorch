@@ -39,7 +39,7 @@ export function Contact() {
             <Grain />
           </div>
           <Container className="py-16 md:py-24 lg:max-w-none lg:pr-16 lg:pl-12 xl:pl-[max(3rem,calc((100vw-90rem)/2+3rem))]">
-            <Logo variant="torch" className="h-20 w-auto md:h-24" title="RubyTorch torch" />
+            <Logo variant="torch" className="h-24 w-auto md:h-32" title="RubyTorch" />
             <div className="mt-10">
               <SectionLabel tone="blush">
                 {contact.label}
