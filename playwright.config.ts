@@ -3,7 +3,7 @@ import { defineConfig } from '@playwright/test'
 const port = 5173 + Number(process.env.WORKTREE_PORT_OFFSET ?? 0)
 
 export default defineConfig({
-  testDir: 'site/tests',
+  testDir: 'tests',
   timeout: 45_000,
   fullyParallel: true,
   reporter: [['list']],

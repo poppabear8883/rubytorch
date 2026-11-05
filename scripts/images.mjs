@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Image pipeline (plan §4): raw PNG in site/raw/ -> graded, QA'd WebP in public/images/.
+// Image pipeline (plan §4): raw PNG in raw/ -> graded, QA'd WebP in public/images/.
 // Colour QA: the saturated highlights must sit in the ruby band around Crimson
 // (#C81E4A, hue ~344°). Orange (> 15°) or magenta (< 320°) fails.
 // A gentle hue rotation nudges pure red toward Crimson so every image shares one grade.

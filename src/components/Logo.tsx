@@ -1,6 +1,6 @@
 /**
- * RubyTorch mark: the official artwork Mike supplied (masters in site/raw/brand/,
- * trimmed copies in site/public/brand/). Transparent PNGs with an Ivory handle,
+ * RubyTorch mark: the official artwork Mike supplied (masters in raw/brand/,
+ * trimmed copies in public/brand/). Transparent PNGs with an Ivory handle,
  * so dark backgrounds only.
  *
  * flame: 334×450 · torch: 206×457. Swap for vendor SVGs when available;

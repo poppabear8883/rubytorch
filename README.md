@@ -5,19 +5,15 @@ A single-page, ultra-dark marketing site for RubyTorch LLC, built with React 19,
 ## Run it
 
 ```bash
-cd site
 NODE_ENV=development npm install --include=dev   # the shell here has NODE_ENV=production; plain `npm install` elsewhere
 npm run dev        # http://localhost:5173  (component kit at /__kit, dev only)
 npm run build      # runs the contrast gate first (prebuild), then tsc + vite build
 ```
 
-Tests run from the project root (`playwright.config.ts`, projects at 360, 768 and 1440 px):
+Playwright tests (`playwright.config.ts`, projects at 360, 768 and 1440 px) expect the dev server to be running:
 
 ```bash
-npm install                      # in the project root: installs @playwright/test
-npx playwright test              # blocking + non-blocking specs in site/tests
-node scripts/shots.mjs 1440 900  # mid-scroll screenshots into .shots/
-node scripts/fps.mjs             # rough scroll smoothness check
+npm run test:e2e                 # blocking + non-blocking specs in tests/
 ```
 
 ## Brand system
@@ -44,7 +40,7 @@ The fonts are **Sora** (display) and **Inter** (body and labels). Both are self-
 
 ## Images
 
-Every image is listed in `src/content/images.ts`. Masters are in `site/raw/*.png`. Running `npm run images` grades them toward Crimson, runs colour QA (rejects orange or magenta) and writes WebP files to `public/images/`.
+Every image is listed in `src/content/images.ts`. Masters are in `raw/*.png`. Running `npm run images` grades them toward Crimson, runs colour QA (rejects orange or magenta) and writes WebP files to `public/images/`.
 
 | Image | Status |
 |---|---|

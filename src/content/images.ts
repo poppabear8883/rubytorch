@@ -3,7 +3,7 @@
  * - status "final": generated, graded and ready to ship.
  * - status "placeholder": stand-in art for the product shots. Swap the file in
  *   public/images/ (same name, same 3:2 source, shown at 16/10) and set status to "final".
- * Masters live in site/raw/*.png; `node scripts/images.mjs` grades them to WebP with colour QA.
+ * Masters live in raw/*.png; `node scripts/images.mjs` grades them to WebP with colour QA.
  *
  * House style (every brief): cinematic, low-key, near-black #0B0B0F, one ruby light source
  * matching Crimson #C81E4A falling off to Deep Ruby #8B0029, fine grain. No faces, no orange
