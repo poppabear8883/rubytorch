@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react'
+import { useState, type CSSProperties } from 'react'
 import type { ImageSpec } from '../content/images'
 
 type Props = {
@@ -19,15 +19,19 @@ type Props = {
  * In dev, placeholder images carry a small tag so nobody mistakes them for finals.
  */
 export function ImageSlot({ spec, className = '', imgClassName = '', imgStyle, priority = false, fill = false, decorative = false }: Props) {
+  const [src, setSrc] = useState(spec.src)
   return (
     <div
       className={`relative overflow-hidden bg-surface-alt ${fill ? 'h-full w-full' : 'w-full'} ${className}`}
       style={fill ? undefined : { aspectRatio: spec.ratio }}
     >
       <picture>
-        {spec.srcMobile && <source media="(max-width: 767.98px)" srcSet={spec.srcMobile} />}
+        {spec.srcMobile && src === spec.src && <source media="(max-width: 767.98px)" srcSet={spec.srcMobile} />}
         <img
-          src={spec.src}
+          src={src}
+          onError={() => {
+            if (spec.fallback && src !== spec.fallback) setSrc(spec.fallback)
+          }}
           alt={decorative ? '' : spec.alt}
           width={spec.width}
           height={spec.height}

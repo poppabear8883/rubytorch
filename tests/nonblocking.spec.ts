@@ -24,28 +24,27 @@ test.describe('non-blocking', () => {
     expect.soft(missing).toEqual([])
   })
 
-  test('aria-current moves between products and the index stays pinned', async ({ page }) => {
+  test('switcher: aria-current follows the product in view and the rail stays pinned', async ({ page }) => {
     await page.goto('/')
-    const desktop = (page.viewportSize()?.width ?? 0) >= 1024
-    const nav = desktop ? page.locator('aside nav[aria-label="Products"]') : page.locator('section#products > div > nav[aria-label="Products"]')
+    const rail = page.locator('#products nav[aria-label="Products"]')
+    const ids = ['forceide', 'collab-ai-pro', 'phoenix']
     const seen: string[] = []
-    let pinnedTops: number[] = []
-    for (const id of ['cinderlens', 'flintpath', 'brasswire', 'kilnshift']) {
+    const tops: number[] = []
+    for (const id of ids) {
       await page.evaluate((i) => {
         const el = document.getElementById(i)!
-        window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - innerHeight * 0.3, behavior: 'instant' as ScrollBehavior })
+        window.scrollTo({ top: el.getBoundingClientRect().top + scrollY + innerHeight * 0.2, behavior: 'instant' as ScrollBehavior })
       }, id)
-      await page.waitForTimeout(400)
-      const cur = await nav.locator('[aria-current="true"]').getAttribute('href')
-      seen.push(cur ?? 'none')
-      pinnedTops.push(Math.round(await nav.evaluate((n) => n.getBoundingClientRect().top)))
+      await page.waitForTimeout(500)
+      seen.push((await rail.locator('[aria-current="true"]').getAttribute('href')) ?? 'none')
+      tops.push(Math.round(await rail.evaluate((n) => n.parentElement!.getBoundingClientRect().top)))
     }
-    expect.soft(seen).toEqual(['#cinderlens', '#flintpath', '#brasswire', '#kilnshift'])
-    pinnedTops = Array.from(new Set(pinnedTops.slice(1))) // first band: the index has not reached its pin yet
-    expect.soft(pinnedTops.length, `index top positions while scrolling: ${pinnedTops}`).toBe(1)
+    expect.soft(seen).toEqual(ids.map((i) => `#${i}`))
+    expect.soft(new Set(tops).size, `rail top positions while scrolling: ${tops}`).toBe(1)
   })
 
   test('text over the hero image keeps >= 4.5:1 at its brightest pixel', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' }) // the still poster: the video's frames change under the sampler
     await page.goto('/')
     await page.waitForTimeout(1900) // let the CSS settle finish
     const boxes = await page.evaluate(() => {
@@ -85,7 +84,7 @@ test.describe('non-blocking', () => {
     await page.goto('/')
     await page.waitForTimeout(500)
     await expect.soft(page).toHaveScreenshot(`hero-${w}.png`, { maxDiffPixelRatio: 0.02 })
-    await page.evaluate(() => document.getElementById('cinderlens')!.scrollIntoView({ behavior: 'instant' as ScrollBehavior }))
+    await page.evaluate(() => document.getElementById('forceide')!.scrollIntoView({ behavior: 'instant' as ScrollBehavior, block: 'start' }))
     await page.waitForTimeout(500)
     await expect.soft(page).toHaveScreenshot(`band-${w}.png`, { maxDiffPixelRatio: 0.02 })
   })

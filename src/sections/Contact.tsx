@@ -1,6 +1,8 @@
-import { useRef, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { motion, useScroll, useTransform } from 'motion/react'
 import { contact } from '../content/copy'
+import { products } from '../content/products'
+import { getInterest, onInterest } from '../lib/interest'
 import { images } from '../content/images'
 import { Container } from '../components/Container'
 import { SectionLabel } from '../components/SectionLabel'
@@ -19,6 +21,8 @@ export function Contact() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'start 0.2'] })
   const scale = useTransform(scrollYProgress, [0, 1], [1.04, 1])
   const [sent, setSent] = useState(false)
+  const [interest, setInterest] = useState(getInterest)
+  useEffect(() => onInterest(setInterest), [])
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -28,7 +32,7 @@ export function Contact() {
 
   return (
     <section id="contact" ref={ref} aria-labelledby="contact-title" className="relative isolate bg-surface">
-      <div className="grid lg:min-h-[48rem] lg:grid-cols-12">
+      <div className="grid grid-cols-1 lg:min-h-[48rem] lg:grid-cols-12">
         {/* image + headline */}
         <div className="relative flex min-h-[34rem] flex-col justify-end overflow-hidden lg:col-span-7 lg:min-h-0">
           <motion.div className="absolute inset-0 -z-10" style={reduced ? undefined : { scale }}>
@@ -47,7 +51,7 @@ export function Contact() {
             </div>
             <h2
               id="contact-title"
-              className="mt-6 max-w-[14ch] font-display text-[clamp(2.5rem,5.4vw,5rem)] leading-[1] font-semibold tracking-[-0.04em] text-ivory"
+              className="mt-6 max-w-[14ch] font-display text-[clamp(2.5rem,5.4vw,5rem)] leading-[0.98] font-extrabold tracking-[-0.04em] uppercase text-ivory"
             >
               {contact.title}
             </h2>
@@ -58,15 +62,15 @@ export function Contact() {
         {/* form panel */}
         <div className="bg-surface-raised lg:col-span-5">
           <div className="mx-auto flex h-full max-w-xl flex-col justify-center px-5 py-16 sm:px-8 md:py-24 lg:px-12">
-            <h3 className="font-display text-2xl font-semibold tracking-[-0.02em] text-ivory">Start a conversation</h3>
-            <p className="mt-2 text-blush">Tell us a little about what you're building.</p>
+            <h3 className="font-display text-2xl font-semibold tracking-[-0.02em] text-ivory">{contact.formTitle}</h3>
+            <p className="mt-2 text-blush">{contact.formIntro}</p>
             <form className="mt-10 flex flex-col gap-8" onSubmit={onSubmit} noValidate={false}>
               <label className="block">
                 <span className="label text-blush">Name</span>
                 <input name="name" type="text" autoComplete="name" required className={field} placeholder="Your name" />
               </label>
               <label className="block">
-                <span className="label text-blush">Email</span>
+                <span className="label text-blush">Work email</span>
                 <input
                   name="email"
                   type="email"
@@ -77,13 +81,32 @@ export function Contact() {
                 />
               </label>
               <label className="block">
+                <span className="label text-blush">Product of interest</span>
+                <select
+                  name="product"
+                  value={interest}
+                  onChange={(e) => setInterest(e.target.value)}
+                  className={`${field} appearance-none bg-[length:1rem] bg-[right_0.25rem_center] bg-no-repeat pr-8`}
+                  style={{
+                    backgroundImage:
+                      "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23E7C7CF' stroke-width='1.5'><path d='M3 6l5 5 5-5'/></svg>\")",
+                  }}
+                >
+                  <option value="" className="bg-surface-raised">Not sure yet</option>
+                  {products.map((p) => (
+                    <option key={p.id} value={p.id} className="bg-surface-raised">
+                      {p.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="block">
                 <span className="label text-blush">Message</span>
                 <textarea
                   name="message"
                   rows={4}
-                  required
                   className={`${field} resize-none`}
-                  placeholder="What are you working on?"
+                  placeholder="What would you like to speed up?"
                 />
               </label>
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -91,7 +114,7 @@ export function Contact() {
                   type="submit"
                   className="inline-flex h-12 items-center justify-center rounded-full bg-crimson px-7 text-[0.95rem] font-medium text-ivory transition-colors hover:bg-ruby"
                 >
-                  Send message
+                  Book a demo
                 </button>
                 <p role="status" aria-live="polite" className="text-sm text-blush">
                   {sent ? contact.thanks : ''}

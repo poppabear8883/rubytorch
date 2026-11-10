@@ -1,4 +1,6 @@
 import { products } from '../content/products'
+import { footer } from '../content/copy'
+import { tagline } from '../content/nav'
 import { navLinks } from '../content/nav'
 import { Container } from '../components/Container'
 import { Lockup } from '../components/Logo'
@@ -6,13 +8,17 @@ import { Lockup } from '../components/Logo'
 export function Footer() {
   return (
     <footer className="border-t border-blush/15 bg-surface">
-      <Container className="grid gap-12 py-16 md:grid-cols-12 md:py-20">
+      <Container className="grid gap-12 py-16 grid-cols-1 md:grid-cols-12 md:py-20">
         <div className="md:col-span-5">
           <a href="#top" aria-label="RubyTorch, back to top" className="inline-flex">
             <Lockup />
           </a>
           <p className="mt-6 max-w-[22rem] leading-relaxed text-blush">
-            A holding company for AI-native software. We build, own and scale products engineered with AI at the core.
+            {footer.blurb}
+          </p>
+          <p className="label mt-8 flex items-center gap-3 text-blush">
+            <span aria-hidden="true" className="h-px w-8 bg-crimson" />
+            {tagline}
           </p>
         </div>
         <nav aria-label="Footer products" className="md:col-span-3 md:col-start-7">
@@ -20,8 +26,20 @@ export function Footer() {
           <ul className="mt-5 flex flex-col gap-3">
             {products.map((p) => (
               <li key={p.id}>
-                <a href={`#${p.id}`} className="text-blush transition-colors hover:text-ivory">
+                <a
+                  href={p.cta.external ? p.cta.href : `#${p.id}`}
+                  {...(p.cta.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  className="inline-flex items-center gap-2 text-blush transition-colors hover:text-ivory"
+                >
                   {p.name}
+                  {p.cta.external && (
+                    <>
+                      <span className="sr-only"> (opens in a new tab)</span>
+                      <svg viewBox="0 0 16 16" aria-hidden="true" className="size-3.5" fill="none">
+                        <path d="M5 3h8v8M13 3L3 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </>
+                  )}
                 </a>
               </li>
             ))}

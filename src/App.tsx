@@ -1,8 +1,7 @@
 import { Nav } from './components/Nav'
 import { Hero } from './sections/Hero'
-import { Thesis } from './sections/Thesis'
-import { Portfolio } from './sections/Portfolio'
-import { Approach } from './sections/Approach'
+import { Family } from './sections/Family'
+import { Products } from './sections/Products'
 import { Principles } from './sections/Principles'
 import { Contact } from './sections/Contact'
 import { Footer } from './sections/Footer'
@@ -13,9 +12,8 @@ export default function App() {
       <Nav />
       <main id="main">
         <Hero />
-        <Thesis />
-        <Portfolio />
-        <Approach />
+        <Family />
+        <Products />
         <Principles />
         <Contact />
       </main>

@@ -43,6 +43,35 @@ const pairs = [
   ['crimson', 'surface-alt', 3, 'large type >=24px'],
 ]
 
+// Product accent text. Accents carry small text only where listed here; everything else is marks, rules and glows.
+// Worst case behind text: the product's glow stops mixed 32% into Graphite (the family-card hover and the world glows peak below that).
+// Tokens are added to the table as `mix:<token>@<percent>`, derived below.
+const TINT = 0.32
+const mix = (a, b, t) => '#' + hex(a).map((v, i) => Math.round(v * (1 - t) + hex(b)[i] * t).toString(16).padStart(2, '0')).join('').toUpperCase()
+const accents = [
+  ['fx-cyan', ['fx-blue', 'fx-cyan']],
+  ['cb-teal', ['cb-orange', 'cb-teal', 'cb-violet']],
+  ['ph-amber', ['ph-flame', 'ph-amber']],
+]
+for (const [text, glows] of accents) {
+  for (const g of glows) {
+    if (!tokens[g] || !tokens.graphite) continue
+    const name = `tint-${g}`
+    tokens[name] = mix(tokens.graphite, tokens[g], TINT)
+    pairs.push(['ivory', name, 4.5, `body text on ${g} glow (32% mix)`])
+    pairs.push(['blush', name, 4.5, `secondary text on ${g} glow (32% mix)`])
+    pairs.push([text, name, 4.5, `${text} label on ${g} glow (32% mix)`])
+  }
+  pairs.push([text, 'graphite', 4.5, `${text} label text`])
+  pairs.push([text, 'surface-alt', 4.5, `${text} label text`])
+}
+// Phoenix approval ticks use ph-amber on the motif card; gate icon uses fx-cyan on surface-alt (covered above).
+pairs.push(['ph-amber', 'surface-raised', 4.5, 'Phoenix motif labels on motif cards'])
+// Graphics only (WCAG 1.4.11, 3:1): product accents used for icon strokes and rules on Graphite.
+pairs.push(['fx-blue', 'graphite', 3, 'rule / gradient start (non-text)'])
+pairs.push(['cb-violet', 'graphite', 3, 'star icon stroke (non-text)'])
+pairs.push(['cb-orange', 'graphite', 3, 'dot (non-text)'])
+
 let failed = false
 const lines = []
 for (const [fg, bg, min, use] of pairs) {

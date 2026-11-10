@@ -55,15 +55,15 @@ export default function Kit() {
 
           <section className="flex flex-wrap gap-3">
             <Button href="#products" arrow>
-              Explore our products
+              Explore the products
             </Button>
             <Button href="#contact" variant="secondary">
-              Talk to us
+              Book a demo
             </Button>
           </section>
 
           <section className="grid max-w-3xl gap-4 md:grid-cols-2">
-            <ImageSlot spec={images['product-cinderlens']} />
+            <ImageSlot spec={images['product-forceide']} />
             <ImageSlot spec={images.approach} />
           </section>
         </Container>
